@@ -94,6 +94,15 @@ function changeImg(event) {
   }
   const currentImage = event.target;
   currentImage.src = currentImage.dataset.source;
+  
+  const currentActiveLink = document.querySelector('.gallery__link.is-active');
+  if (currentActiveLink) {
+    currentActiveLink.classList.remove('is-active');
+  }
+  
+  const currentLink = event.target.parentNode;
+  currentLink.classList.add('is-active');
+
 }
 
 
@@ -102,24 +111,66 @@ function changeImg(event) {
     overlay: document.querySelector('.lightbox__overlay'),
     content: document.querySelector('.lightbox__content'),
     imgModal: document.querySelector('.lightbox__image'),
-    closeBtn: document.querySelector('.lightbox__button'),
+    closeBtn: document.querySelector('button[data-action="close-lightbox"]'),
   }
 
-const currentLink = event.target.parentNode;
-console.log(currentLink)
+// galleryEl.addEventListener('click', openModal);
+// refs.closeBtn.addEventListener('click', closeModal);
+// refs.overlay.addEventListener('click', onOverlayClick);
 
-currentLink.addEventListener('click', openModal);
-  
 
-  function openModal(e) {
-    if (!currentLink) {
+// function openModal(event) {
+//   event.preventDefault();
+//   window.addEventListener('keydown', onEscKeyPress);
+//     if (event.target.localName !== 'img') {
+//       return
+//     }
+//       refs.lightbox.classList.add('is-open');
+//       refs.imgModal.src = event.target.dataset.source;
+//       refs.imgModal.alt = event.target.alt;
+//   }
+
+
+
+// function closeModal() {
+//   window.removeEventListener('keydown', onEscKeyPress);
+//   refs.lightbox.classList.remove('is-open');
+//   refs.imgModal.src = '';
+//   refs.imgModal.alt = '';
+// }
+
+// function onOverlayClick(e) {
+//   if (e.target === e.currentTarget) {
+//    closeModal();
+//    }
+// }
+ 
+// function onEscKeyPress(event) {
+//   if (event.code === 'Escape') {
+//      closeModal();
+//   }
+// }
+
+const imageArray = document.querySelectorAll('img.gallery__image');
+let currentIndex = 1;
+for (let i = 0; i < imageArray.length; i++) {
+  window.addEventListener('keydown', (event) => {
+    if (event.code !== 'ArrowRight' && event.code !== 'ArrowLeft') {
       return
     }
-      refs.lightbox.classList.add('.is-open');
-      refs.imgModal.src = e.target.dataset.source;
-      refs.imgModal.alt = e.target.alt;
-    console.log('open modal');
-  }
+    if (event.code === 'ArrowRight') {
+      currentIndex += 1;
+    }
+    if (event.code === 'ArrowLeft') {
+      currentIndex -= 1;
+    }
+    console.log(setModalImage(currentIndex));
+  });
+}
 
-
-  
+function setModalImage(i) {
+  console.log(imageArray[i]);
+  // for (let i = 0; i < imageArray.length; i++) {
+  //   currentIndex = imageArray[i];
+  // }
+}
