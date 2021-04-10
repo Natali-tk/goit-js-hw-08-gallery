@@ -1,4 +1,5 @@
-export default [
+const images = [
+
   {
     preview:
       'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
@@ -62,4 +63,59 @@ export default [
       'https://cdn.pixabay.com/photo/2019/05/17/04/35/lighthouse-4208843_1280.jpg',
     description: 'Lighthouse Coast Sea',
   },
-];
+]
+
+const galleryEl = document.querySelector('.js-gallery');
+
+const imageList = images.map(image => {
+  return `<li class="gallery__item">
+  <a
+    class="gallery__link"
+    href="${image.original}" 
+  >
+    <img
+      class="gallery__image"
+      src="${image.preview}" 
+      data-source="${image.original}" 
+      alt="Tulips"
+    />
+  </a>
+</li>`;
+}).join('');
+
+galleryEl.insertAdjacentHTML('beforeend', imageList)
+
+galleryEl.addEventListener('click', changeImg)
+
+function changeImg(event) {
+  event.preventDefault();
+  if (event.target.nodeName !== 'IMG') {
+    return
+  }
+  const currentImage = event.target;
+  currentImage.src = currentImage.dataset.source;
+
+
+  const refs = {
+    lightbox: document.querySelector('.js-lightbox'),
+    overlay: document.querySelector('.lightbox__overlay'),
+    contante: document.querySelector('.lightbox__content'),
+    imgModal: document.querySelector('.lightbox__image'),
+    closeBtn:document.querySelector('.lightbox__button'),
+}
+
+  const currentLink = event.target.parentNode;
+  currentLink.addEventListener('click', openModal);
+  
+  function openModal() {
+    if (!currentLink) {
+      return
+    }
+      refs.lightbox.classList.add('.is-open');
+      refs.imgModal.src = currentImage.src;
+      refs.imgModal.alt = currentImage.alt;
+      console.log('open modal');
+    }
+}
+
+  
