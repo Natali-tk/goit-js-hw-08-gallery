@@ -88,34 +88,38 @@ galleryEl.insertAdjacentHTML('beforeend', imageList)
 galleryEl.addEventListener('click', changeImg)
 
 function changeImg(event) {
-  event.preventDefault();
+  event.preventDefault()
   if (event.target.nodeName !== 'IMG') {
     return
   }
   const currentImage = event.target;
   currentImage.src = currentImage.dataset.source;
+}
 
 
   const refs = {
     lightbox: document.querySelector('.js-lightbox'),
     overlay: document.querySelector('.lightbox__overlay'),
-    contante: document.querySelector('.lightbox__content'),
+    content: document.querySelector('.lightbox__content'),
     imgModal: document.querySelector('.lightbox__image'),
-    closeBtn:document.querySelector('.lightbox__button'),
-}
+    closeBtn: document.querySelector('.lightbox__button'),
+  }
 
-  const currentLink = event.target.parentNode;
-  currentLink.addEventListener('click', openModal);
+const currentLink = event.target.parentNode;
+console.log(currentLink)
+
+currentLink.addEventListener('click', openModal);
   
-  function openModal() {
+
+  function openModal(e) {
     if (!currentLink) {
       return
     }
       refs.lightbox.classList.add('.is-open');
-      refs.imgModal.src = currentImage.src;
-      refs.imgModal.alt = currentImage.alt;
-      console.log('open modal');
-    }
-}
+      refs.imgModal.src = e.target.dataset.source;
+      refs.imgModal.alt = e.target.alt;
+    console.log('open modal');
+  }
+
 
   
