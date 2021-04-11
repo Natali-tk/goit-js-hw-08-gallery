@@ -110,7 +110,7 @@ galleryEl.addEventListener('click', openModal);
 refs.closeBtn.addEventListener('click', closeModal);
 refs.overlay.addEventListener('click', onOverlayClick);
 
-let activeIndex = null;
+
 
 function openModal(event) {
   event.preventDefault();
@@ -118,15 +118,6 @@ function openModal(event) {
   if (event.target.localName !== 'img') {
     return
   }
-  
-  imageList.forEach((element, index) => {
-    if (element.includes(event.target.src)) {
-      activeIndex = index;
-    }
-    if (activeIndex > images.length - 1) {
-    activeIndex = 0;
-  }
-  });
 
   refs.lightbox.classList.add('is-open');
   refs.imgModal.src = event.target.dataset.source;
@@ -154,22 +145,52 @@ function onEscKeyPress(event) {
 
 
 
+const imagesArray = document.querySelectorAll('.gallery__image');
+
 window.addEventListener('keydown', (event) => {
-
+   
   if (event.code !== 'ArrowRight' && event.code !== 'ArrowLeft') {
-    return
+    return;
   }
-
-  if (event.code === 'ArrowRight') {
-    activeIndex += 1;
-    refs.imgModal.src = images[activeIndex].original;
-    refs.imgModal.alt = images[activeIndex].description;
-  }
+  
   if (event.code === 'ArrowLeft') {
-    activeIndex -= 1;
-    refs.imgModal.src = images[activeIndex].original;
-    refs.imgModal.alt = images[activeIndex].description;
-  }   
+    onClickArrowLeft() 
+
+  }
+  
+  if (event.code === 'ArrowRight') {
+   onClickArrowRight()  
+  }
 });
+
+function onClickArrowRight() {
+  for (let i = 0; i < imagesArray.length; i += 1) {
+       let activeIndex = 0;
+      if (imagesArray[i].alt === refs.imgModal.alt) {
+        activeIndex = i + 1;
+        if (activeIndex > imagesArray.length-1) {
+          activeIndex = 0;
+        }
+        refs.imgModal.src = imagesArray[activeIndex].dataset.source;
+        refs.imgModal.alt = imagesArray[activeIndex].alt;
+        return;
+    };
+  };
+};
+
+function onClickArrowLeft() {
+  for (let i = 0; i < imagesArray.length; i += 1) {
+     let activeIndex = 0;
+      if (imagesArray[i].alt === refs.imgModal.alt) {
+        activeIndex = i - 1;
+        if (activeIndex < 0) {
+          activeIndex = imagesArray.length-1;
+        }
+        refs.imgModal.src = imagesArray[activeIndex].dataset.source;
+        refs.imgModal.alt = imagesArray[activeIndex].alt;
+        return
+    };
+  };
+};
 
 
