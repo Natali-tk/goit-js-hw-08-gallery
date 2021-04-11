@@ -81,11 +81,11 @@ const imageList = images.map(image => {
     />
   </a>
 </li>`;
-}).join('');
+});
 
-galleryEl.insertAdjacentHTML('beforeend', imageList)
+galleryEl.insertAdjacentHTML('beforeend', imageList.join(''));
 
-galleryEl.addEventListener('click', changeImg)
+galleryEl.addEventListener('click', changeImg);
 
 function changeImg(event) {
   event.preventDefault()
@@ -94,43 +94,44 @@ function changeImg(event) {
   }
   const currentImage = event.target;
   currentImage.src = currentImage.dataset.source;
-  
-  const currentActiveLink = document.querySelector('.gallery__link.is-active');
-  if (currentActiveLink) {
-    currentActiveLink.classList.remove('is-active');
-  }
-  
-  const currentLink = event.target.parentNode;
-  currentLink.classList.add('is-active');
-
 }
 
 
-  const refs = {
-    lightbox: document.querySelector('.js-lightbox'),
-    overlay: document.querySelector('.lightbox__overlay'),
-    content: document.querySelector('.lightbox__content'),
-    imgModal: document.querySelector('.lightbox__image'),
-    closeBtn: document.querySelector('button[data-action="close-lightbox"]'),
-  }
+const refs = {
+  lightbox: document.querySelector('.js-lightbox'),
+  overlay: document.querySelector('.lightbox__overlay'),
+  content: document.querySelector('.lightbox__content'),
+  imgModal: document.querySelector('.lightbox__image'),
+  closeBtn: document.querySelector('button[data-action="close-lightbox"]'),
+}
+
 
 galleryEl.addEventListener('click', openModal);
 refs.closeBtn.addEventListener('click', closeModal);
 refs.overlay.addEventListener('click', onOverlayClick);
 
+let activeIndex = null;
 
 function openModal(event) {
   event.preventDefault();
   window.addEventListener('keydown', onEscKeyPress);
-    if (event.target.localName !== 'img') {
-      return
-    }
-      refs.lightbox.classList.add('is-open');
-      refs.imgModal.src = event.target.dataset.source;
-      refs.imgModal.alt = event.target.alt;
+  if (event.target.localName !== 'img') {
+    return
   }
+  
+  imageList.forEach((element, index) => {
+    if (element.includes(event.target.src)) {
+      activeIndex = index;
+    }
+    if (activeIndex > images.length - 1) {
+    activeIndex = 0;
+  }
+  });
 
-
+  refs.lightbox.classList.add('is-open');
+  refs.imgModal.src = event.target.dataset.source;
+  refs.imgModal.alt = event.target.alt;
+}
 
 function closeModal() {
   window.removeEventListener('keydown', onEscKeyPress);
@@ -141,48 +142,33 @@ function closeModal() {
 
 function onOverlayClick(e) {
   if (e.target === e.currentTarget) {
-   closeModal();
-   }
+    closeModal();
+  }
 }
- 
+
 function onEscKeyPress(event) {
   if (event.code === 'Escape') {
-     closeModal();
+    closeModal();
   }
 }
+const imagesReverse = images.reverse();
+console.log(imagesReverse);
+window.addEventListener('keydown', (event) => {
 
-refs.imgModal.addEventListener('click', foundActiveIndex);
-function foundActiveIndex(e) {
-  const imageArray = document.querySelectorAll('img.gallery__image');
-  let currentIndex = 1;
-  for (let i = 0; i < imageArray.length; i += 1) {
-    if (imageArray[i].src === e.target.src && i >= 0) {
-      currentIndex = i;//нашла текущий индекс по клику//
-      
-    }
-  
- 
-    window.addEventListener('keydown', (event) => {
-
-      if (event.code !== 'ArrowRight' && event.code !== 'ArrowLeft') {
-        return
-      }
-      
-      if (event.code === 'ArrowRight') {
-        currentIndex -= 1;//замена картинки(src,alt) на предыдущую 
-        refs.imgModal.src = imageArray[currentIndex].src;//берется маленькая картинка,  как достать большую?
-        refs.imgModal.alt = imageArray[currentIndex].alt;
-      }
-      if (event.code === 'ArrowLeft') {
-        currentIndex += 1;////замена картинки(src,alt) на следующую
-        refs.imgModal.src = imageArray[currentIndex].src;///берется маленькая картинка,  как достать большую?
-        refs.imgModal.alt = imageArray[currentIndex].alt;
-      }
-      console.log(refs.imgModal);
-    })
+  if (event.code !== 'ArrowRight' && event.code !== 'ArrowLeft') {
+    return
   }
-}
 
-  
+  if (event.code === 'ArrowRight') {
+    activeIndex += 1;
+    refs.imgModal.src = images[activeIndex].original;
+    refs.imgModal.alt = images[activeIndex].description;
+  }
+  if (event.code === 'ArrowLeft') {
+    activeIndex -= 1;
+    refs.imgModal.src = images[activeIndex].original;
+    refs.imgModal.alt = images[activeIndex].description;
+  }   
+});
 
 
