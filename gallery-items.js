@@ -81,9 +81,9 @@ const imageList = images.map(image => {
     />
   </a>
 </li>`;
-});
+}).join('');
 
-galleryEl.insertAdjacentHTML('beforeend', imageList.join(''));
+galleryEl.insertAdjacentHTML('beforeend', imageList);
 
 galleryEl.addEventListener('click', changeImg);
 
