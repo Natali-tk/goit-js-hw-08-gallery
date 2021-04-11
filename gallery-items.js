@@ -77,7 +77,7 @@ const imageList = images.map(image => {
       class="gallery__image"
       src="${image.preview}" 
       data-source="${image.original}" 
-      alt="Tulips"
+      alt="${image.description}"
     />
   </a>
 </li>`;
@@ -114,63 +114,75 @@ function changeImg(event) {
     closeBtn: document.querySelector('button[data-action="close-lightbox"]'),
   }
 
-// galleryEl.addEventListener('click', openModal);
-// refs.closeBtn.addEventListener('click', closeModal);
-// refs.overlay.addEventListener('click', onOverlayClick);
+galleryEl.addEventListener('click', openModal);
+refs.closeBtn.addEventListener('click', closeModal);
+refs.overlay.addEventListener('click', onOverlayClick);
 
 
-// function openModal(event) {
-//   event.preventDefault();
-//   window.addEventListener('keydown', onEscKeyPress);
-//     if (event.target.localName !== 'img') {
-//       return
-//     }
-//       refs.lightbox.classList.add('is-open');
-//       refs.imgModal.src = event.target.dataset.source;
-//       refs.imgModal.alt = event.target.alt;
-//   }
-
-
-
-// function closeModal() {
-//   window.removeEventListener('keydown', onEscKeyPress);
-//   refs.lightbox.classList.remove('is-open');
-//   refs.imgModal.src = '';
-//   refs.imgModal.alt = '';
-// }
-
-// function onOverlayClick(e) {
-//   if (e.target === e.currentTarget) {
-//    closeModal();
-//    }
-// }
- 
-// function onEscKeyPress(event) {
-//   if (event.code === 'Escape') {
-//      closeModal();
-//   }
-// }
-
-const imageArray = document.querySelectorAll('img.gallery__image');
-let currentIndex = 1;
-for (let i = 0; i < imageArray.length; i++) {
-  window.addEventListener('keydown', (event) => {
-    if (event.code !== 'ArrowRight' && event.code !== 'ArrowLeft') {
+function openModal(event) {
+  event.preventDefault();
+  window.addEventListener('keydown', onEscKeyPress);
+    if (event.target.localName !== 'img') {
       return
     }
-    if (event.code === 'ArrowRight') {
-      currentIndex += 1;
-    }
-    if (event.code === 'ArrowLeft') {
-      currentIndex -= 1;
-    }
-    console.log(setModalImage(currentIndex));
-  });
+      refs.lightbox.classList.add('is-open');
+      refs.imgModal.src = event.target.dataset.source;
+      refs.imgModal.alt = event.target.alt;
+  }
+
+
+
+function closeModal() {
+  window.removeEventListener('keydown', onEscKeyPress);
+  refs.lightbox.classList.remove('is-open');
+  refs.imgModal.src = '';
+  refs.imgModal.alt = '';
 }
 
-function setModalImage(i) {
-  console.log(imageArray[i]);
-  // for (let i = 0; i < imageArray.length; i++) {
-  //   currentIndex = imageArray[i];
-  // }
+function onOverlayClick(e) {
+  if (e.target === e.currentTarget) {
+   closeModal();
+   }
 }
+ 
+function onEscKeyPress(event) {
+  if (event.code === 'Escape') {
+     closeModal();
+  }
+}
+
+refs.imgModal.addEventListener('click', foundActiveIndex);
+function foundActiveIndex(e) {
+  const imageArray = document.querySelectorAll('img.gallery__image');
+  let currentIndex = 1;
+  for (let i = 0; i < imageArray.length; i += 1) {
+    if (imageArray[i].src === e.target.src && i >= 0) {
+      currentIndex = i;//нашла текущий индекс по клику//
+      
+    }
+  
+ 
+    window.addEventListener('keydown', (event) => {
+
+      if (event.code !== 'ArrowRight' && event.code !== 'ArrowLeft') {
+        return
+      }
+      
+      if (event.code === 'ArrowRight') {
+        currentIndex -= 1;//замена картинки(src,alt) на предыдущую 
+        refs.imgModal.src = imageArray[currentIndex].src;//берется маленькая картинка,  как достать большую?
+        refs.imgModal.alt = imageArray[currentIndex].alt;
+      }
+      if (event.code === 'ArrowLeft') {
+        currentIndex += 1;////замена картинки(src,alt) на следующую
+        refs.imgModal.src = imageArray[currentIndex].src;///берется маленькая картинка,  как достать большую?
+        refs.imgModal.alt = imageArray[currentIndex].alt;
+      }
+      console.log(refs.imgModal);
+    })
+  }
+}
+
+  
+
+
