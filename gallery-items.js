@@ -151,8 +151,9 @@ function onEscKeyPress(event) {
     closeModal();
   }
 }
-const imagesReverse = images.reverse();
-console.log(imagesReverse);
+
+
+
 window.addEventListener('keydown', (event) => {
 
   if (event.code !== 'ArrowRight' && event.code !== 'ArrowLeft') {
