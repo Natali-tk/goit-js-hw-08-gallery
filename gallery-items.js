@@ -67,23 +67,23 @@ const images = [
 
 const galleryEl = document.querySelector('.js-gallery');
 
-const imageList = images.map(image => {
+const galleryList = images.map(({ preview, original, description }) => {
   return `<li class="gallery__item">
   <a
     class="gallery__link"
-    href="${image.original}" 
+    href="${original}" 
   >
     <img
       class="gallery__image"
-      src="${image.preview}" 
-      data-source="${image.original}" 
-      alt="${image.description}"
+      src="${preview}" 
+      data-source="${original}" 
+      alt="${description}"
     />
   </a>
 </li>`;
-}).join('');
+});
 
-galleryEl.insertAdjacentHTML('beforeend', imageList);
+galleryEl.insertAdjacentHTML('beforeend', galleryList.join(''));
 
 galleryEl.addEventListener('click', changeImg);
 
@@ -110,22 +110,36 @@ galleryEl.addEventListener('click', openModal);
 refs.closeBtn.addEventListener('click', closeModal);
 refs.overlay.addEventListener('click', onOverlayClick);
 
+const imageList = document.querySelectorAll('.gallery__image')
+let activeIndex = null;
 
 
 function openModal(event) {
   event.preventDefault();
   window.addEventListener('keydown', onEscKeyPress);
+  window.addEventListener('keydown', onScrollImg);
+  
   if (event.target.localName !== 'img') {
     return
-  }
+  };
 
   refs.lightbox.classList.add('is-open');
   refs.imgModal.src = event.target.dataset.source;
   refs.imgModal.alt = event.target.alt;
+ 
+  imageList.forEach((image, index) => {
+   if (image.dataset.source===event.target.src) {
+     activeIndex = index;
+     }
+    console.log(activeIndex);
+  });
+  
+  
 }
 
 function closeModal() {
   window.removeEventListener('keydown', onEscKeyPress);
+  window.removeEventListener('keydown', onScrollImg);
   refs.lightbox.classList.remove('is-open');
   refs.imgModal.src = '';
   refs.imgModal.alt = '';
@@ -143,54 +157,36 @@ function onEscKeyPress(event) {
   }
 }
 
+function onScrollImg (event)  {
 
-
-const imagesArray = document.querySelectorAll('.gallery__image');
-
-window.addEventListener('keydown', (event) => {
-   
   if (event.code !== 'ArrowRight' && event.code !== 'ArrowLeft') {
     return;
   }
   
-  if (event.code === 'ArrowLeft') {
-    onClickArrowLeft() 
-
-  }
-  
-  if (event.code === 'ArrowRight') {
-   onClickArrowRight()  
-  }
-});
-
-function onClickArrowRight() {
-  for (let i = 0; i < imagesArray.length; i += 1) {
-       let activeIndex = 0;
-      if (imagesArray[i].alt === refs.imgModal.alt) {
-        activeIndex = i + 1;
-        if (activeIndex > imagesArray.length-1) {
-          activeIndex = 0;
-        }
-        refs.imgModal.src = imagesArray[activeIndex].dataset.source;
-        refs.imgModal.alt = imagesArray[activeIndex].alt;
+  if (event.code == 'ArrowLeft' && activeIndex > 0){
+        activeIndex -= 1;
+        refs.imgModal.alt  = images[activeIndex].description;
+        refs.imgModal.src = images[activeIndex ].original;
         return;
-    };
-  };
+  }
+  if (event.code == 'ArrowLeft' && activeIndex  === 0){
+        activeIndex = images.length-1;
+        refs.imgModal.alt = images[activeIndex].description;
+        refs.imgModal.src = images[activeIndex].original;
+        return;
+  }
+  if (event.code == 'ArrowRight' && activeIndex < images.length - 1){
+        activeIndex += 1;
+        refs.imgModal.alt  = images[activeIndex].description;
+        refs.imgModal.src= images[activeIndex].original;
+        return;
+  }
+  if (event.code == 'ArrowRight' && activeIndex === images.length - 1){
+        activeIndex = 0;
+        refs.imgModal.alt  = images[activeIndex].description;
+        refs.imgModal.src = images[activeIndex].original;
+    }
 };
 
-function onClickArrowLeft() {
-  for (let i = 0; i < imagesArray.length; i += 1) {
-     let activeIndex = 0;
-      if (imagesArray[i].alt === refs.imgModal.alt) {
-        activeIndex = i - 1;
-        if (activeIndex < 0) {
-          activeIndex = imagesArray.length-1;
-        }
-        refs.imgModal.src = imagesArray[activeIndex].dataset.source;
-        refs.imgModal.alt = imagesArray[activeIndex].alt;
-        return
-    };
-  };
-};
 
 
