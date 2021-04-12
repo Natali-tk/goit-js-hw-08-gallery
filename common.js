@@ -66,7 +66,7 @@ function openModal(event) {
    if (image.dataset.source===event.target.src) {
      activeIndex = index;
      }
-    console.log(activeIndex);
+
   });
   
   
@@ -100,28 +100,26 @@ function onScrollImg (event)  {
   
   if (event.code == 'ArrowLeft' && activeIndex > 0){
         activeIndex -= 1;
-        refs.imgModal.alt  = galleryItems[activeIndex].description;
-        refs.imgModal.src = galleryItems[activeIndex ].original;
+        refs.imgModal.src= imageList[activeIndex].dataset.source;
+        refs.imgModal.alt= imageList[activeIndex].alt;
         return;
   }
   if (event.code == 'ArrowLeft' && activeIndex  === 0){
-        activeIndex = galleryItems.length-1;
-        refs.imgModal.alt = galleryItems[activeIndex].description;
-        refs.imgModal.src = galleryItems[activeIndex].original;
+        activeIndex = imageList.length-1;
+        refs.imgModal.src= imageList[activeIndex].dataset.source;
+        refs.imgModal.alt= imageList[activeIndex].alt;
         return;
   }
-  if (event.code == 'ArrowRight' && activeIndex < galleryItems.length - 1){
+  if (event.code == 'ArrowRight' && activeIndex < imageList.length - 1){
         activeIndex += 1;
-        refs.imgModal.alt  = galleryItems[activeIndex].description;
-        refs.imgModal.src= galleryItems[activeIndex].original;
+        refs.imgModal.src= imageList[activeIndex].dataset.source;
+        refs.imgModal.alt= imageList[activeIndex].alt;
         return;
   }
-  if (event.code == 'ArrowRight' && activeIndex === galleryItems.length - 1){
+  if (event.code == 'ArrowRight' && activeIndex === imageList.length - 1){
         activeIndex = 0;
-        refs.imgModal.alt  = galleryItems[activeIndex].description;
-        refs.imgModal.src = galleryItems[activeIndex].original;
+        refs.imgModal.src= imageList[activeIndex].dataset.source;
+        refs.imgModal.alt= imageList[activeIndex].alt;
     }
 };
-
-
 
