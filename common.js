@@ -100,19 +100,19 @@ function onScrollImg (event)  {
   
   if (event.code == 'ArrowLeft' && activeIndex > 0){
         activeIndex -= 1;
-        changeImageScroll()
+    changeImageScroll();
   }
   if (event.code == 'ArrowLeft' && activeIndex  === 0){
         activeIndex = imageList.length-1;
-        changeImageScroll()
+    changeImageScroll();
   }
   if (event.code == 'ArrowRight' && activeIndex < imageList.length - 1){
         activeIndex += 1;
-        changeImageScroll()
+    changeImageScroll();
   }
   if (event.code == 'ArrowRight' && activeIndex === imageList.length - 1){
         activeIndex = 0;
-        changeImageScroll()
+    changeImageScroll();
     }
 };
 
