@@ -16,9 +16,9 @@ const galleryList = galleryItems.map(({ preview, original, description }) => {
     />
   </a>
 </li>`;
-});
+}).join('');
 
-galleryEl.insertAdjacentHTML('beforeend', galleryList.join(''));
+galleryEl.insertAdjacentHTML('beforeend', galleryList);
 
 galleryEl.addEventListener('click', changeImg);
 
