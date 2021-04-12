@@ -1,4 +1,4 @@
-import galleryItems from './gallery-items.js';
+import galleryItems from "./gallery-items.js";
 
 const galleryEl = document.querySelector('.js-gallery');
 
@@ -100,26 +100,23 @@ function onScrollImg (event)  {
   
   if (event.code == 'ArrowLeft' && activeIndex > 0){
         activeIndex -= 1;
-        refs.imgModal.src= imageList[activeIndex].dataset.source;
-        refs.imgModal.alt= imageList[activeIndex].alt;
-        return;
+        changeImageScroll()
   }
   if (event.code == 'ArrowLeft' && activeIndex  === 0){
         activeIndex = imageList.length-1;
-        refs.imgModal.src= imageList[activeIndex].dataset.source;
-        refs.imgModal.alt= imageList[activeIndex].alt;
-        return;
+        changeImageScroll()
   }
   if (event.code == 'ArrowRight' && activeIndex < imageList.length - 1){
         activeIndex += 1;
-        refs.imgModal.src= imageList[activeIndex].dataset.source;
-        refs.imgModal.alt= imageList[activeIndex].alt;
-        return;
+        changeImageScroll()
   }
   if (event.code == 'ArrowRight' && activeIndex === imageList.length - 1){
         activeIndex = 0;
-        refs.imgModal.src= imageList[activeIndex].dataset.source;
-        refs.imgModal.alt= imageList[activeIndex].alt;
+        changeImageScroll()
     }
 };
 
+function changeImageScroll() {
+    refs.imgModal.src= imageList[activeIndex].dataset.source;
+    refs.imgModal.alt= imageList[activeIndex].alt;
+ }
