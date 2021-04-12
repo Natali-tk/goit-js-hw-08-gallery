@@ -1,4 +1,4 @@
- export default [
+export default [
 
   {
     preview:
@@ -64,6 +64,8 @@
     description: 'Lighthouse Coast Sea',
   },
 ]
+
+
 
 
 
