@@ -103,7 +103,7 @@ function onScrollImg (event)  {
     changeImageScroll();
   }
   if (event.code == 'ArrowLeft' && activeIndex  === 0){
-        activeIndex = imageList.length-1;
+        activeIndex = imageList.length;
     changeImageScroll();
   }
   if (event.code == 'ArrowRight' && activeIndex < imageList.length - 1){
