@@ -101,18 +101,22 @@ function onScrollImg (event)  {
   if (event.code == 'ArrowLeft' && activeIndex > 0){
         activeIndex -= 1;
     changeImageScroll();
+    return
   }
   if (event.code == 'ArrowLeft' && activeIndex  === 0){
         activeIndex = imageList.length;
     changeImageScroll();
+    return
   }
-  if (event.code == 'ArrowRight' && activeIndex < imageList.length - 1){
-        activeIndex += 1;
-    changeImageScroll();
+  if (event.code == 'ArrowRight' && activeIndex < imageList.length-1){
+      activeIndex += 1;
+     changeImageScroll()
+    return
   }
-  if (event.code == 'ArrowRight' && activeIndex === imageList.length - 1){
-        activeIndex = 0;
-    changeImageScroll();
+  if (event.code == 'ArrowRight' && activeIndex === imageList.length-1){
+    activeIndex = 0;
+     changeImageScroll()
+    return
     }
 };
 
