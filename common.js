@@ -110,17 +110,18 @@ function onScrollImg (event)  {
   }
   if (event.code == 'ArrowRight' && activeIndex < imageList.length-1){
       activeIndex += 1;
-     changeImageScroll()
+    changeImageScroll();
     return
   }
   if (event.code == 'ArrowRight' && activeIndex === imageList.length-1){
     activeIndex = 0;
-     changeImageScroll()
+    changeImageScroll();
     return
     }
 };
 
 function changeImageScroll() {
-    refs.imgModal.src= imageList[activeIndex].dataset.source;
-    refs.imgModal.alt= imageList[activeIndex].alt;
+  refs.imgModal.src= imageList[activeIndex].dataset.source;
+  refs.imgModal.alt = imageList[activeIndex].alt;
+  
  }
