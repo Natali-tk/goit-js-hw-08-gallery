@@ -104,7 +104,7 @@ function onScrollImg (event)  {
     return
   }
   if (event.code == 'ArrowLeft' && activeIndex  === 0){
-        activeIndex = imageList.length;
+        activeIndex = imageList.length-1;
     changeImageScroll();
     return
   }
